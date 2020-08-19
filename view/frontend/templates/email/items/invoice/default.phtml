@@ -1,0 +1,56 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $_item = $block->getItem() ?>
+<?php $_order = $block->getItem()->getOrder(); ?>
+<tr>
+    <td class="item-info<?php if ($block->getItemOptions($_item)): ?> has-extra<?php endif; ?>">
+        <p class="product-name"><?= $block->escapeHtml($_item->getName()) ?></p>
+        <p class="sku"><?= /* @escapeNotVerified */  __('SKU') ?>: <?= $block->escapeHtml($block->getSku($_item)) ?></p>
+
+
+        <?php if ($block->getSku($_item)=='106891'): ?>
+            <?php $options =$block->getItemOptions($_item); ?>
+       
+            <dl>
+                <?php foreach ($options as $option => $optionValue): ?>
+                    <?php  switch ($option) {          
+                        case "28" : $key="Hear Us"; break;  // hear about us
+                        case "29" : $key="Backing Dimension"; break;  // backing dimension
+                        case "30" : $key="Placement"; break;  // Placement Direction
+                        case "31" : $key="Sew Yeah Choose Pattern"; break;  // Sewyeah Choose Pattern
+                        case "32" : $key="Trim Backing"; break;  // Trim Off Excess Backing
+                        case "33" : $key="Thread Color"; break;  // Thread Color
+                        case "34" : $key="Bating"; break;  // Batting
+                        case "35" : $key="Additional Note"; break;  // Additional Notes
+                        case "36" : $key="Pattern Theme"; break;  // pattern themes
+                        case "37" : $key="Initials"; break;
+                        default: $key=$option; break;
+                    }?>
+                    <dt><strong><em><?= /* @escapeNotVerified */  $key ?>:</em></strong></dt>
+                    <dd>
+                        <?= /* @escapeNotVerified */  nl2br($optionValue) ?>
+                    </dd>
+                <?php endforeach; ?>
+            </dl>
+        <?php endif; ?>
+
+
+
+        <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+        <?php if ($addInfoBlock) :?>
+            <?= $addInfoBlock->setItem($_item->getOrderItem())->toHtml() ?>
+        <?php endif; ?>
+        <?= $block->escapeHtml($_item->getDescription()) ?>
+    </td>
+    <td class="item-qty"><?= /* @escapeNotVerified */  $_item->getQty() * 1 ?></td>
+    <td class="item-price">
+        <?= /* @escapeNotVerified */  $block->getItemPrice($_item->getOrderItem()) ?>
+    </td>
+</tr>
